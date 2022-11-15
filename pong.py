@@ -15,15 +15,16 @@ pen.penup()
 pen.goto(7, 5)
 pen.write('Start', font=('Courier', 15, 'normal'))
 
-def buttonClick(x,y):
-    if x > 0 and x < 81 and y> 0 and y < 30:
-       
-			  ##Jogabilidade
+
+def buttonClick(x, y):
+    if x > 0 and x < 81 and y > 0 and y < 30:
+
+        ##Jogabilidade
 
         # Window
         wind = turtle.Screen()
-        wind.title('CTXGO')
-        wind.bgcolor('green')
+        wind.title('Pong Game')
+        wind.bgcolor('grey')
         wind.setup(width=800, height=600)
         wind.tracer(0)
 
@@ -49,7 +50,7 @@ def buttonClick(x,y):
         ball.color('black')
         ball.penup()
         ball.goto(0, 0)
-        ball_x = 0.1
+        ball_x = 0.3
         ball_y = 0.1
 
         # score
@@ -130,9 +131,7 @@ def buttonClick(x,y):
                 ball_x *= -1
 
 
-
-
-turtle.onscreenclick(buttonClick,1)
+turtle.onscreenclick(buttonClick, 1)
 turtle.listen()
 
 turtle.done()
