@@ -1,3 +1,5 @@
+#Analise de dados com faturamento de empresa.
+
 # Passo 1: Importar a base de dados
 import pandas as pd
 
