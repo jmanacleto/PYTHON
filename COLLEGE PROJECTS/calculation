@@ -1,0 +1,43 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Dados do experimento
+m = np.array([0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.11, 0.12, 0.13, 0.14, 0.15])
+T = np.array([0.25, 0.35, 0.45, 0.5, 0.58, 0.65, 0.7, 0.75, 0.78, 0.8, 0.85, 0.9, 0.92, 0.98, 1.0])
+
+import matplotlib.pyplot as plt
+
+# The mass and period values must be set before running the code.
+# Suppose the masses are stored in a list called 'm' and the periods in a list called 'T'.
+
+plt.plot(m, T, 'o')  # Create the scatterplot.
+plt.xlabel('Massa (kg)')  # Set the x-axis label.
+plt.ylabel('Período (s)')  # Set the y-axis label.
+plt.show()  # Display the graph.
+
+
+# Plot of the graph T^2 x m
+plt.plot(m, T**2, 'o')
+plt.xlabel('Massa (kg)')
+plt.ylabel('Período^2 (s^2)')
+plt.show()
+
+#This code uses the NumPy library
+#from Python to fit a polynomial from
+# degree 1 to the data stored in the variables
+#m and T and then calculate the constant K
+# using the coefficient of the linear term of the polynomial
+#adjusted.
+
+#Fit a line to points
+p = np.polyfit(m, T**2, 1)
+K = 4 * np.pi**2 / p[0]
+
+# Fitted line plot
+plt.plot(m, T**2, 'o')
+plt.plot(m, p[0]*m + p[1])
+plt.xlabel('Massa (kg)')
+plt.ylabel('Período^2 (s^2)')
+plt.show()
+
+print("K = {:.2f} N/m".format(K))
