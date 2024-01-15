@@ -1,0 +1,90 @@
+import json
+import datetime
+import tkinter as tk
+from tkinter import messagebox
+import os
+
+data_file_path = 'habitos.json'
+
+if not os.path.exists(data_file_path):
+    with open(data_file_path, 'w') as file:
+        json.dump({'habitos': []}, file)
+
+def carregar_habitos():
+    with open(data_file_path, 'r') as file:
+        return json.load(file)
+
+def salvar_habitos(habitos_data):
+    with open(data_file_path, 'w') as file:
+        json.dump(habitos_data, file, indent=2)
+
+def adicionar_habito(nome_habito):
+    data_atual = datetime.date.today().strftime("%Y-%m-%d")
+    novo_habito = {'nome': nome_habito, 'data': data_atual, 'concluido': False}
+    habitos_data['habitos'].append(novo_habito)
+    salvar_habitos(habitos_data)
+    messagebox.showinfo("Sucesso", "Hábito adicionado com sucesso!")
+
+def marcar_concluido(id_habito):
+    try:
+        id_habito = int(id_habito)
+        habitos_data['habitos'][id_habito - 1]['concluido'] = True
+        salvar_habitos(habitos_data)
+        messagebox.showinfo("Sucesso", "Hábito marcado como concluído!")
+    except (ValueError, IndexError):
+        messagebox.showerror("Erro", "Número de hábito inválido. Tente novamente.")
+
+def exibir_habitos():
+    habitos = habitos_data['habitos']
+    texto = "Lista de Hábitos:\n"
+    for i, habito in enumerate(habitos, start=1):
+        status = "Concluído" if habito['concluido'] else "Não Concluído"
+        texto += f"{i}. {habito['nome']} - {habito['data']} ({status})\n"
+
+    messagebox.showinfo("Hábitos", texto)
+
+def adicionar_habito_gui():
+    nome_habito = entry_nome_habito.get()
+    if nome_habito:
+        adicionar_habito(nome_habito)
+        entry_nome_habito.delete(0, tk.END)
+    else:
+        messagebox.showerror("Erro", "Digite o nome do hábito.")
+
+def marcar_concluido_gui():
+    id_habito = entry_id_habito.get()
+    if id_habito.isdigit():
+        marcar_concluido(int(id_habito))
+        entry_id_habito.delete(0, tk.END)
+    else:
+        messagebox.showerror("Erro", "Digite um número válido.")
+
+# Carregar dados iniciais
+habitos_data = carregar_habitos()
+
+# Criar janela principal
+janela = tk.Tk()
+janela.title("Aplicativo de Hábitos")
+
+# Adicionar Hábito
+label_nome_habito = tk.Label(janela, text="Nome do Hábito:")
+label_nome_habito.pack(pady=5)
+entry_nome_habito = tk.Entry(janela)
+entry_nome_habito.pack(pady=5)
+btn_adicionar_habito = tk.Button(janela, text="Adicionar Hábito", command=adicionar_habito_gui)
+btn_adicionar_habito.pack(pady=10)
+
+# Marcar Hábito como Concluído
+label_id_habito = tk.Label(janela, text="Número do Hábito:")
+label_id_habito.pack(pady=5)
+entry_id_habito = tk.Entry(janela)
+entry_id_habito.pack(pady=5)
+btn_marcar_concluido = tk.Button(janela, text="Marcar Concluído", command=marcar_concluido_gui)
+btn_marcar_concluido.pack(pady=10)
+
+# Exibir Hábitos
+btn_exibir_habitos = tk.Button(janela, text="Exibir Hábitos", command=exibir_habitos)
+btn_exibir_habitos.pack(pady=10)
+
+# Iniciar loop da interface gráfica
+janela.mainloop()
